@@ -11,7 +11,9 @@ This script can crack WiFi passwords for WPA and WPA2 networks when supplied wit
 
 along with a passwords list.
 
-A sample list of the top 100 passwords is included for testing. In a real world scenario, you'd typically use a much larger list. This script is for demonstration purposes to make it easy for those looking to build their own cracking tools get started with a straightforward example.
+A sample list of the top 100 passwords is included for testing. In a real world scenario, you'd typically use a much larger list. This script is for demonstration purposes and built for comprehension over speed. It is meant to help those looking to build their own cracking tools get started with a bare-bones example.
+
+Also, and I hope this goes without saying, only ever hack a network you own and have legal permission to hack. This is for educational purposes only and to help you advance your penetration testing skills and knowledge. 
 
 ## Background Information on the exploit
 What the terms above mean in simple language:
@@ -40,8 +42,6 @@ To generate a potential matching PMKID from a test password on the passwords lis
 In order to crack a password, crack_password.py simply loops through a list of likely passwords and does the above 2 steps with each test password until a matching PMKID is found. It is essentially a less sophisticated, single-threaded, CPU-based way of doing what hashcat does with mode 16800/22000 to crack WPA/WPA2 PSK passwords when a PMKID is known.
 
 Note that this is for demonstration purposes, and not a particularly effective way of cracking WiFi passwords given it's slow speed. Most of the time you'd want to use *much* bigger lists, a faster language and more sophisticated parallel processing techniques. Still, I'm hoping this can get you started building your own cracking tools from the ground up. Personally, I like to have short and simple code examples to build off of, or to port to other languages. All of the code, including the PDKDF2 implementation that I grabbed from Stefano Palazzo's <a href="https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py">example</a> uses only standard python libraries. Other than comments/license info, there's only ~65 total lines of python over both .py files, and without print statements, spaces, and formatting it's closer to ~35.
-
-Also, and I hope this goes without saying, hacking a network you don't own or have permission to hack is very illegal. Don't do it. This is for educational purposes only and to advance your penetration testing skills and knowledge. 
 
 ## Options
 
