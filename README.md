@@ -1,4 +1,4 @@
-# wpa-password-cracking-with-pmkid
+# WPA/WPA2 Password Cracking in Python - PMKID
 A WPA/WPA2 PSK password cracking script for a known PMKID. 
 
 Active files include the main script `crack_password.py`, another python file called `pbkdf2.py` containing a PBKDF2 function used in the main script, and a sample passwords list in `passlist.txt`.
