@@ -126,7 +126,7 @@ Similarly for #2 you could run:
 ```
 python crack_password.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
 ```
-Our sample password list will successfully crack both of these examples. And of course you can always supply your own list. 
+Our sample password list is enough to successfully crack both of these examples. And of course you can always supply your own list. 
 <br/>  
 <br/>  
 
