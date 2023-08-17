@@ -33,15 +33,17 @@ This exploit was originally found in 2018 by atom and the hashcat team. See the 
 
 ## How the script works
 
+We'll be going over how to obtain a PMKID from and AP in a seperate tutorial/repo with another short script and a WiFi adapter. You can also obtain a PMKID with <a href="https://github.com/ZerBea/hcxdumptool">hcxdumptool</a> or the <a href="https://github.com/risinek/esp32-wifi-penetration-tool">ESP32 Wi-Fi Penetration Tool</a>.
+
 This script (`crack_password.py`) does the password cracking that comes after the PMKID has been obtained from the Access Point.
 
-To generate a potential matching PMKID from a test password on the passwords list, the following steps are taken:
+To generate a potential matching PMKID with a test password from the passwords list, the following steps are taken:
 1. A PMK (Pairwise Master Key) is computed using a cryptographic function called PBKDF2 with the test password and SSID as inputs
 2. A PMKID is then computed with a function called HMAC-SHA1-128 using the computed PMK, the string "PMK Name", the Access Point MAC address, and the Client MAC address as inputs.
 
-In order to crack a password, crack_password.py simply loops through a list of likely passwords and does the above 2 steps with each test password until a matching PMKID is found. It is essentially a less sophisticated, single-threaded, CPU-based way of doing what hashcat does with mode 16800/22000 to crack WPA/WPA2 PSK passwords when a PMKID is known.
+In order to crack a password, `crack_password.py` simply loops through a list of likely passwords and does the above 2 steps with each test password until a matching PMKID is found. It is essentially a less sophisticated, CPU-based way of doing something similar to what hashcat does with a dictionary attack in hash mode 22000 with a known PMKID.
 
-Note that this is for demonstration purposes, and not a particularly effective way of cracking WiFi passwords given it's slow speed. Most of the time you'd want to use *much* bigger lists, a faster language and more sophisticated parallel processing techniques. Still, I'm hoping this can get you started building your own cracking tools from the ground up. Personally, I like to have short and simple code examples to build off of, or to port to other languages. All of the code, including the PDKDF2 implementation that I grabbed from Stefano Palazzo's <a href="https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py">example</a> uses only standard python libraries. Other than comments/license info, there's only ~65 total lines of python over both .py files, and without print statements, spaces, and formatting it's closer to ~35.
+Personally, I like to have short and simple code examples to build off of, or to port to other languages. All of the code, including the PDKDF2 implementation that I grabbed from Stefano Palazzo's <a href="https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py">example</a> uses only standard python libraries. Other than comments/license info, there's only ~65 total lines of python over both .py files, and without print statements and spaces it's closer to ~35.
 
 ## Options
 
@@ -73,9 +75,9 @@ crack_password.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
 **Note:**
 - You can omit the `<PASSWORD_LIST_SRC>` to use the sample `passlist.txt` file. 
 
-- Quotes are not necessary but can be used i.e. a PMKID of `"4d4fe7aac3a2cecab195321ceb99a7d0"` or `4d4fe7aac3a2cecab195321ceb99a7d0` are treated the same.
+- Quotes are only necessary if there are spaces in a given term. A PMKID of `"4d4fe7aac3a2cecab195321ceb99a7d0"` or `4d4fe7aac3a2cecab195321ceb99a7d0` are treated the same. 
 
-- MAC address octets can be seperated by `:`, `-`, or can omit seperators all together. Capitilization also doesn't matter: `fc:69:0c:15:82:64`, `fc-69-0c-15-82-64`, `fc690c158264`, `FC:69:0C:15:82:64` are all equivalent.
+- MAC address octets can be seperated by `:`, `-`, or can omit seperators all together. Capitilization also doesn't matter for MAC addresses: `fc:69:0c:15:82:64`, `fc-69-0c-15-82-64`, `fc690c158264`, and `FC:69:0C:15:82:64` are all equivalent.
 
 ## Getting and Running the Script:
 Clone the project:
@@ -94,6 +96,39 @@ Run the script with explicit params:
 ```
 python crack_password.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
 ```
+
+## Using hashcat hc22000 examples with this script
+Hashcat now uses hash mode 22000 which has 2 types of hash lines: one type starts with `WPA*01`, and the other starts with `WPA*02`. See their <a href="https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2">guide on hash mode 22000</a> for more detail. 
+
+Specifically, the `WPA*01` lines contain the same information that our `crack_password.py` script needs to crack passwords based on PMKID. They are of the form:
+
+```
+WPA*01*PMKID*MAC_AP*MAC_CLIENT*ESSID***MESSAGEPAIR
+```
+<br/>  
+
+Here are a couple `WPA*01` hash line examples from the hashcat forums (<a href="https://hashcat.net/forum/thread-10548.html">Ex 1</a>, <a href="https://hashcat.net/forum/thread-10414.html"> Ex 2</a>):
+1. `WPA*01*ca5396d611cf330aebefd48ebbfb0e63*020000000001*020000000020*61703031`
+   
+2. `WPA*01*5ce7ebe97a1bbfeb2822ae627b726d5b*27462da350ac*accd10fb464e*686173686361742d6573736964`
+
+Let's use #1 as an example:
+- The PMKID is `ca5396d611cf330aebefd48ebbfb0e63`
+- The SSID (ESSID) in hex values is `61703031` which if you convert to ascii is `ap01` (<a href="https://www.rapidtables.com/convert/number/hex-to-ascii.html">hex to ascii converter</a>)
+- The MAC_AP is `020000000001`
+- The MAC_CLIENT is `020000000020`
+
+To use this in our `crack_password.py` script we can run:
+```
+python crack_password.py ca5396d611cf330aebefd48ebbfb0e63 ap01 020000000001 020000000020
+```
+Similarly for #2 you could run:
+```
+python crack_password.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
+```
+Our sample password list will successfully crack both of these examples. And of course you can always supply your own list. 
+<br/>  
+<br/>  
 
 
 ## Acknowledgements
