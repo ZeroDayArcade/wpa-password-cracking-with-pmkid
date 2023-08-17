@@ -29,7 +29,7 @@ By obtaining this frame and thus the PMKID, a hacker can take a list of potentia
 
 Note that this process happens offline. Once the PMKID is obtained, the hacker can make as many attempts as they want to find the password without having to interact with the Access Point.
 
-This exploit was originally found in 2018. See the thread on the Hashcat forums: <a href="https://hashcat.net/forum/thread-7717.html">Thread</a>
+This exploit was originally found in 2018 by atom and the hashcat team. See the thread on the hashcat forums: <a href="https://hashcat.net/forum/thread-7717.html">Thread</a>
 
 ## How the script works
 
