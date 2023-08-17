@@ -101,3 +101,11 @@ python crack_password.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c
 https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-100.txt
 
 `pbkdf2.py` contains a PDKDF2 python implementation by Stefano Palazzo written using only standard libraries. I've stripped out comments (other than the license info) and unneeded parts to keep it short, see the original on his github: https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py
+
+<br/>
+
+# More Zero Day Arcade Tutorials:
+🎓  <a href="https://zerodayarcade.com/tutorials">zerodayarcade.com/tutorials</a> 
+
+# Find Hacking Bounties in Gaming:
+🎮  <a href="https://zerodayarcade.com/bounties">zerodayarcade.com/bounties</a>
