@@ -33,7 +33,7 @@ This exploit was originally found in 2018 by atom and the hashcat team. See the 
 
 ## How the script works
 
-We'll be going over how to obtain a PMKID from and AP in a seperate tutorial/repo with another short script and a WiFi adapter. You can also obtain a PMKID with <a href="https://github.com/ZerBea/hcxdumptool">hcxdumptool</a> or the <a href="https://github.com/risinek/esp32-wifi-penetration-tool">ESP32 Wi-Fi Penetration Tool</a>.
+We'll be going over how to obtain a PMKID from an AP in a seperate tutorial/repo with another short script and a WiFi adapter. You can also obtain a PMKID with <a href="https://github.com/ZerBea/hcxdumptool">hcxdumptool</a> or the <a href="https://github.com/risinek/esp32-wifi-penetration-tool">ESP32 Wi-Fi Penetration Tool</a>.
 
 This script (`crack_password.py`) does the password cracking that comes after the PMKID has been obtained from the Access Point.
 
