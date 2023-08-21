@@ -137,7 +137,7 @@ Our sample password list is enough to successfully crack both of these examples.
 `passlist.txt` is a sample list taken from the top 100 most common passwords put together by Daniel Miessler. I've added "hashcat!" to the list for the example hash. See the original list here:
 https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-100.txt
 
-`pbkdf2.py` contains a PDKDF2 python implementation by Stefano Palazzo written using only standard libraries. I've stripped out comments (other than the license info) and unneeded parts to keep it short, see the original on his github: https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py
+`pbkdf2.py` contains a PBKDF2 python implementation by Stefano Palazzo written using only standard libraries. I've stripped out comments (other than the license info) and unneeded parts to keep it short, see the original on his github: https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py
 
 <br/>
 
