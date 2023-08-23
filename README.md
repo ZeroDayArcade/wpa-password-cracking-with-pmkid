@@ -51,7 +51,7 @@ You can feed in PMKID, ESSID, AP MAC, Client MAC and a custom passwords list whe
 
 To use the default test parameters, simply run:
 ```
-python crack_password.py
+python3 crack_password.py
 ```
 The default parameters are:
 <br/>  
@@ -69,7 +69,7 @@ You can feed in your own values like so:
 
 
 ```
-crack_password.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
+python3 crack_password.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
 ```
 
 **Note:**
@@ -90,11 +90,11 @@ cd wpa-password-cracking-with-pmkid
 ```
 Test the script with default params:
 ```
-python crack_password.py
+python3 crack_password.py
 ```
 Run the script with explicit params:
 ```
-python crack_password.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
+python3 crack_password.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
 ```
 
 ## Using hashcat hc22000 examples with this script
@@ -122,11 +122,11 @@ Let's use #1 as an example:
 
 To use this in our `crack_password.py` script we can run:
 ```
-python crack_password.py ca5396d611cf330aebefd48ebbfb0e63 ap01 020000000001 020000000020
+python3 crack_password.py ca5396d611cf330aebefd48ebbfb0e63 ap01 020000000001 020000000020
 ```
 Similarly for #2 you could run:
 ```
-python crack_password.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
+python3 crack_password.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
 ```
 Our sample password list is enough to successfully crack both of these examples. And of course you can always supply your own list. 
 <br/>  
