@@ -1,5 +1,5 @@
 # WPA/WPA2 Password Cracking in Python - PMKID
-A WPA/WPA2 PSK password cracking script for a known PMKID. 
+A WPA/WPA2 PSK password cracking script for a known PMKID. For cracking passwords from a captured 4-Way Handshake, see our other repo here: <a href="https://github.com/ZeroDayArcade/cracking-wpa-with-handshake">Cracking WPA/WPA2 WiFi Passwords from a Captured Handshake</a>
 
 This script can crack WiFi passwords for WPA and WPA2 networks when supplied with: 
 1. PMKID
