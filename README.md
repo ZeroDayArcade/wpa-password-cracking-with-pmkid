@@ -1,8 +1,6 @@
 # WPA/WPA2 Password Cracking in Python - PMKID
 A WPA/WPA2 PSK password cracking script for a known PMKID. 
 
-Active files include the main script `crack_password.py`, another python file called `pbkdf2.py` containing a PBKDF2 function used in the main script, and a sample passwords list in `passlist.txt`.
-
 This script can crack WiFi passwords for WPA and WPA2 networks when supplied with: 
 1. PMKID
 2. SSID
@@ -35,15 +33,15 @@ This exploit was originally found in 2018 by atom and the hashcat team. See the 
 
 We'll be going over how to obtain a PMKID from an AP in a seperate tutorial/repo with another short script and a WiFi adapter. You can also obtain a PMKID with <a href="https://github.com/ZerBea/hcxdumptool">hcxdumptool</a> or the <a href="https://github.com/risinek/esp32-wifi-penetration-tool">ESP32 Wi-Fi Penetration Tool</a>.
 
-This script (`crack_password.py`) does the password cracking that comes after the PMKID has been obtained from the Access Point.
+This script (`crack_pmkid.py`) does the password cracking that comes after the PMKID has been obtained from the Access Point.
 
 To generate a potential matching PMKID with a test password from the passwords list, the following steps are taken:
 1. A PMK (Pairwise Master Key) is computed using a cryptographic function called PBKDF2 with the test password and SSID as inputs
 2. A PMKID is then computed with a function called HMAC-SHA1-128 using the computed PMK, the string "PMK Name", the Access Point MAC address, and the Client MAC address as inputs.
 
-In order to crack a password, `crack_password.py` simply loops through a list of likely passwords and does the above 2 steps with each test password until a matching PMKID is found. It is essentially a less sophisticated, CPU-based way of doing something similar to what hashcat does with a dictionary attack in hash mode 22000 with a known PMKID.
+In order to crack a password, `crack_pmkid.py` simply loops through a list of likely passwords and does the above 2 steps with each test password until a matching PMKID is found. It is essentially a less sophisticated, CPU-based way of doing something similar to what hashcat does with a dictionary attack in hash mode 22000 with a known PMKID.
 
-Personally, I like to have short and simple code examples to build off of, or to port to other languages. All of the code, including the PDKDF2 implementation that I grabbed from Stefano Palazzo's <a href="https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py">example</a> uses only standard python libraries. Other than comments/license info, there's only ~65 total lines of python over both .py files, and without print statements and spaces it's closer to ~35.
+Personally, I like to have short and simple code examples to build off of, or to port to other languages. All of the code uses only standard python libraries. There's only about ~50 total lines of python and without print statements and spaces it's closer to about ~25.
 
 ## Options
 
@@ -51,7 +49,7 @@ You can feed in PMKID, ESSID, AP MAC, Client MAC and a custom passwords list whe
 
 To use the default test parameters, simply run:
 ```
-python3 crack_password.py
+python3 crack_pmkid.py
 ```
 The default parameters are:
 <br/>  
@@ -69,7 +67,7 @@ You can feed in your own values like so:
 
 
 ```
-python3 crack_password.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
+python3 crack_pmkid.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
 ```
 
 **Note:**
@@ -90,24 +88,24 @@ cd wpa-password-cracking-with-pmkid
 ```
 Test the script with default params:
 ```
-python3 crack_password.py
+python3 crack_pmkid.py
 ```
 Run the script with explicit params:
 ```
-python3 crack_password.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
+python3 crack_pmkid.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
 ```
 
 ## Using hashcat hc22000 examples with this script
 Hashcat now uses hash mode 22000 which has 2 types of hash lines: one type starts with `WPA*01`, and the other starts with `WPA*02`. See their <a href="https://hashcat.net/wiki/doku.php?id=cracking_wpawpa2">guide on hash mode 22000</a> for more detail. 
 
-Specifically, the `WPA*01` lines contain the same information that our `crack_password.py` script needs to crack passwords based on PMKID. They are of the form:
+Specifically, the `WPA*01` lines contain the same information that our `crack_pmkid.py` script needs to crack passwords based on PMKID. They are of the form:
 
 ```
 WPA*01*PMKID*MAC_AP*MAC_CLIENT*ESSID***MESSAGEPAIR
 ```
 <br/>  
 
-That means you can test hashcat `WPA*01` examples with `crack_password.py`.
+That means you can test hashcat `WPA*01` examples with `crack_pmkid.py`.
 
 Here are a couple `WPA*01` hash line examples from the hashcat forums (<a href="https://hashcat.net/forum/thread-10548.html">Ex 1</a>, <a href="https://hashcat.net/forum/thread-10414.html"> Ex 2</a>):
 1. `WPA*01*ca5396d611cf330aebefd48ebbfb0e63*020000000001*020000000020*61703031`
@@ -120,13 +118,13 @@ Let's use #1 as an example:
 - The MAC_AP is `020000000001`
 - The MAC_CLIENT is `020000000020`
 
-To use this in our `crack_password.py` script we can run:
+To use this in our `crack_pmkid.py` script we can run:
 ```
-python3 crack_password.py ca5396d611cf330aebefd48ebbfb0e63 ap01 020000000001 020000000020
+python3 crack_pmkid.py ca5396d611cf330aebefd48ebbfb0e63 ap01 020000000001 020000000020
 ```
 Similarly for #2 you could run:
 ```
-python3 crack_password.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
+python3 crack_pmkid.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
 ```
 Our sample password list is enough to successfully crack both of these examples. And of course you can always supply your own list. 
 <br/>  
@@ -136,8 +134,6 @@ Our sample password list is enough to successfully crack both of these examples.
 ## Acknowledgements
 `passlist.txt` is a sample list taken from the top 100 most common passwords put together by Daniel Miessler. I've added "hashcat!" to the list for the example hash. See the original list here:
 https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-100.txt
-
-`pbkdf2.py` contains a PBKDF2 python implementation by Stefano Palazzo written using only standard libraries. I've stripped out comments (other than the license info) and unneeded parts to keep it short, see the original on his github: https://github.com/sfstpala/python3-pbkdf2/blob/master/pbkdf2.py
 
 <br/>
 
