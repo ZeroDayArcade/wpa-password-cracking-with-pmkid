@@ -107,7 +107,7 @@ WPA*01*PMKID*MAC_AP*MAC_CLIENT*ESSID***MESSAGEPAIR
 
 That means you can test hashcat `WPA*01` examples with `crack_pmkid.py`.
 
-Here are a couple `WPA*01` hash line examples from the hashcat forums (<a href="https://hashcat.net/forum/thread-10548.html">Ex 1</a>, <a href="https://hashcat.net/forum/thread-10414.html"> Ex 2</a>):
+Here are a couple `WPA*01` hash line examples from the hashcat forums (<a href="https://hashcat.net/forum/thread-10548.html">Source 1</a>, <a href="https://hashcat.net/forum/thread-10414.html"> Source 2</a>):
 1. `WPA*01*ca5396d611cf330aebefd48ebbfb0e63*020000000001*020000000020*61703031`
    
 2. `WPA*01*5ce7ebe97a1bbfeb2822ae627b726d5b*27462da350ac*accd10fb464e*686173686361742d6573736964`
