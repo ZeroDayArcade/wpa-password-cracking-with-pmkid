@@ -73,7 +73,7 @@ python3 crack_pmkid.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
 **Note:**
 - You can omit the `<PASSWORD_LIST_SRC>` to use the sample `passlist.txt` file. 
 
-- Quotes are only necessary if there are spaces in a given term. A PMKID of `"4d4fe7aac3a2cecab195321ceb99a7d0"` or `4d4fe7aac3a2cecab195321ceb99a7d0` are treated the same. 
+- Quotes are usually not necessary except for terms with spaces in them or that use characters other than letters and numbers. A PMKID of `"4d4fe7aac3a2cecab195321ceb99a7d0"` or `4d4fe7aac3a2cecab195321ceb99a7d0` are treated the same. This usually only matters for the ESSID, and potentially the passlist file name. When in doubt use quotes.
 
 - MAC address octets can be seperated by `:`, `-`, or can omit seperators all together. Capitilization also doesn't matter for MAC addresses: `fc:69:0c:15:82:64`, `fc-69-0c-15-82-64`, `fc690c158264`, and `FC:69:0C:15:82:64` are all equivalent.
 
@@ -92,7 +92,7 @@ python3 crack_pmkid.py
 ```
 Run the script with explicit params:
 ```
-python3 crack_pmkid.py 4d4fe7aac3a2cecab195321ceb99a7d0 hashcat-essid fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
+python3 crack_pmkid.py 4d4fe7aac3a2cecab195321ceb99a7d0 "hashcat-essid" fc:69:0c:15:82:64 f4:74:7f:87:f9:f4 passlist.txt
 ```
 
 ## Using hashcat hc22000 examples with this script
@@ -120,11 +120,11 @@ Let's use #1 as an example:
 
 To use this in our `crack_pmkid.py` script we can run:
 ```
-python3 crack_pmkid.py ca5396d611cf330aebefd48ebbfb0e63 ap01 020000000001 020000000020
+python3 crack_pmkid.py ca5396d611cf330aebefd48ebbfb0e63 "ap01" 020000000001 020000000020
 ```
 Similarly for #2 you could run:
 ```
-python3 crack_pmkid.py 5ce7ebe97a1bbfeb2822ae627b726d5b hashcat-essid 27462da350ac accd10fb464e
+python3 crack_pmkid.py 5ce7ebe97a1bbfeb2822ae627b726d5b "hashcat-essid" 27462da350ac accd10fb464e
 ```
 Our sample password list is enough to successfully crack both of these examples. And of course you can always supply your own list. 
 <br/>  
