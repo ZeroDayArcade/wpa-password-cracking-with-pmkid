@@ -1,5 +1,7 @@
 # WPA/WPA2 Password Cracking in Python - PMKID
-A WPA/WPA2 PSK password cracking script for a known PMKID. For cracking passwords from a captured 4-Way Handshake, see our other repo here: <a href="https://github.com/ZeroDayArcade/cracking-wpa-with-handshake">Cracking WPA/WPA2 WiFi Passwords from a Captured Handshake</a>
+A WPA/WPA2 PSK password cracking script for a known PMKID. 
+
+For capturing a PMKID from an access point, see the other repo: <a href="https://github.com/ZeroDayArcade/capture-pmkid-wpa-wifi-hacking">Capturing a PMKID from WPA/WPA2 Access Points with a Python Script</a>
 
 This script can crack WiFi passwords for WPA and WPA2 networks when supplied with: 
 1. PMKID
@@ -11,7 +13,7 @@ along with a passwords list.
 
 A sample list of the top 100 passwords is included for testing. In a real world scenario, you'd typically use a much larger list. This script is for demonstration purposes and built for comprehension over speed. It is meant to help those looking to build their own cracking tools get started with a bare-bones example.
 
-Also, and I hope this goes without saying, only ever hack a network you own and have legal permission to hack. This is for educational purposes only and to help you advance your penetration testing skills and knowledge. 
+Only ever hack a network you own and have legal permission to hack. This is for educational purposes only and to help you advance your penetration testing skills and knowledge. 
 
 ## Background Information on the exploit
 What the terms above mean in simple language:
@@ -31,7 +33,7 @@ This exploit was originally found in 2018 by atom and the hashcat team. See the 
 
 ## How the script works
 
-We'll be going over how to obtain a PMKID from an AP in a seperate tutorial/repo with another short script and a WiFi adapter. You can also obtain a PMKID with <a href="https://github.com/ZerBea/hcxdumptool">hcxdumptool</a> or the <a href="https://github.com/risinek/esp32-wifi-penetration-tool">ESP32 Wi-Fi Penetration Tool</a>.
+You can obtain a PMKID from an AP with <a href="https://github.com/ZeroDayArcade/capture-pmkid-wpa-wifi-hacking">this short script</a> and a WiFi adapter. You can also obtain a PMKID with <a href="https://github.com/ZerBea/hcxdumptool">hcxdumptool</a> or the <a href="https://github.com/risinek/esp32-wifi-penetration-tool">ESP32 Wi-Fi Penetration Tool</a>.
 
 This script (`crack_pmkid.py`) does the password cracking that comes after the PMKID has been obtained from the Access Point.
 
@@ -45,7 +47,7 @@ Personally, I like to have short and simple code examples to build off of, or to
 
 ## Options
 
-You can feed in PMKID, ESSID, AP MAC, Client MAC and a custom passwords list when you run the script, or you can leave the parameters blank to run the script with a test PMKID taken from hashcat's example hashes (see 22000): [Hashcat Example Hashes](https://hashcat.net/wiki/doku.php?id=example_hashes#example_hashes). 
+You can feed in PMKID, SSID, AP MAC, Client MAC and a custom passwords list when you run the script, or you can leave the parameters blank to run the script with a test PMKID taken from hashcat's example hashes (see 22000): [Hashcat Example Hashes](https://hashcat.net/wiki/doku.php?id=example_hashes#example_hashes). 
 
 To use the default test parameters, simply run:
 ```
@@ -67,13 +69,13 @@ You can feed in your own values like so:
 
 
 ```
-python3 crack_pmkid.py <PMKID> <ESSID> <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
+python3 crack_pmkid.py <PMKID> "<SSID>" <MAC_AP> <MAC_CLIENT> <PASSWORD_LIST_SRC>
 ```
 
 **Note:**
 - You can omit the `<PASSWORD_LIST_SRC>` to use the sample `passlist.txt` file. 
 
-- Quotes are usually not necessary except for terms with spaces in them or that use characters other than letters and numbers. A PMKID of `"4d4fe7aac3a2cecab195321ceb99a7d0"` or `4d4fe7aac3a2cecab195321ceb99a7d0` are treated the same. This usually only matters for the ESSID, and potentially the passlist file name. When in doubt use quotes.
+- Quotes are usually not necessary except for terms with spaces in them or in some cases for terms that use characters other than letters and numbers (like `*`). A PMKID of `"4d4fe7aac3a2cecab195321ceb99a7d0"` or `4d4fe7aac3a2cecab195321ceb99a7d0` are treated the same. This usually only ever matters for the SSID, and potentially the passlist file name. When in doubt use quotes, or to be extra safe triple quotes can be used.
 
 - MAC address octets can be seperated by `:`, `-`, or can omit seperators all together. Capitilization also doesn't matter for MAC addresses: `fc:69:0c:15:82:64`, `fc-69-0c-15-82-64`, `fc690c158264`, and `FC:69:0C:15:82:64` are all equivalent.
 
@@ -137,8 +139,14 @@ https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credenti
 
 <br/>
 
-# More Zero Day Arcade Tutorials:
+# More ZDA Code and Resources:
+**Learn Reverse Engineering, Assembly, Code Injection and More:**  
 🎓  <a href="https://zerodayarcade.com/tutorials">zerodayarcade.com/tutorials</a> 
+
+**More WiFi Hacking with Simple Python Scripts:**  
+<a href="https://github.com/ZeroDayArcade/capture-pmkid-wpa-wifi-hacking">Capturing PMKID from WiFi Networks</a>  
+<a href="https://github.com/ZeroDayArcade/capture-handshake-wpa-wifi-hacking">Capturing 4-Way Handshake from WPA/WPA2 Networks</a>  
+<a href="https://github.com/ZeroDayArcade/cracking-wpa-with-handshake">Cracking WPA/WPA2 Passwords with 4-Way Handshake</a>
 
 # Find Hacking Bounties in Gaming:
 🎮  <a href="https://zerodayarcade.com/bounties">zerodayarcade.com/bounties</a>
